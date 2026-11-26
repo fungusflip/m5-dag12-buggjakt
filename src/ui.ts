@@ -24,19 +24,37 @@ export function visaMeny(container: HTMLElement, meny: Ratt[]): void {
 
 // Visar korgen som en lista, totalsumman och (om det finns) kundens kommentar till köket.
 export function visaKorg(container: HTMLElement, korg: KorgRad[], meny: Ratt[], kommentar: string): void {
-  let html = "<ul>";
+  const lista = document.createElement("ul");
   for (const rad of korg) {
     const ratt = meny.find((r) => r.id === rad.id);
     if (ratt) {
-      html += `<li>${rad.antal} × ${ratt.namn} <button type="button" class="ta-bort" data-id="${rad.id}" aria-label="Ta bort ${ratt.namn}">Ta bort</button></li>`;
+      lista.append(skapaKorgRad(rad, ratt));
     }
   }
-  html += "</ul>";
-  html += `<p class="summa">Summa: ${formateraPris(totalPris(korg, meny))}</p>`;
+  const summa = document.createElement("p");
+  summa.className = "summa";
+  summa.textContent = "Summa: " + formateraPris(totalPris(korg, meny));
+  container.replaceChildren(lista, summa);
   if (kommentar) {
-    html += `<p class="kommentar">Till köket: ${kommentar}</p>`;
+    const kommentarEl = document.createElement("p");
+    kommentarEl.className = "kommentar";
+    kommentarEl.textContent = "Till köket: " + kommentar;
+    container.append(kommentarEl);
   }
-  container.innerHTML = html;
+}
+
+// Bygger en rad i korgen med textContent, så att namn och kommentar aldrig tolkas som HTML.
+function skapaKorgRad(rad: KorgRad, ratt: Ratt): HTMLLIElement {
+  const li = document.createElement("li");
+  li.append(`${rad.antal} × ${ratt.namn} `);
+  const knapp = document.createElement("button");
+  knapp.type = "button";
+  knapp.className = "ta-bort";
+  knapp.dataset.id = String(rad.id);
+  knapp.setAttribute("aria-label", "Ta bort " + ratt.namn);
+  knapp.textContent = "Ta bort";
+  li.append(knapp);
+  return li;
 }
 
 export function visaStatus(element: HTMLElement, text: string): void {
