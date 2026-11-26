@@ -3,11 +3,12 @@ import type { Ratt, KorgRad } from "./typer";
 // Korgen är en lista av { id, antal }. Funktionerna ska inte ändra listan de får in, utan ge tillbaka en ny.
 
 export function laggTill(korg: KorgRad[], id: number | string): KorgRad[] {
-  const finns = korg.find((rad) => rad.id === id);
+  const valtId = Number(id);
+  const finns = korg.find((rad) => rad.id === valtId);
   if (finns) {
-    return korg.map((rad) => (rad.id === id ? { ...rad, antal: rad.antal + 1 } : rad));
+    return korg.map((rad) => (rad.id === valtId ? { ...rad, antal: rad.antal + 1 } : rad));
   }
-  return [...korg, { id, antal: 1 }];
+  return [...korg, { id: valtId, antal: 1 }];
 }
 
 export function taBort(korg: KorgRad[], id: number | string): KorgRad[] {
