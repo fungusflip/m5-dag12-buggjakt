@@ -20,7 +20,7 @@ export function totalPris(korg: KorgRad[], meny: Ratt[]): number {
   for (const rad of korg) {
     const ratt = meny.find((r) => r.id === rad.id);
     if (ratt) {
-      summa += ratt.pris;
+      summa += ratt.pris * rad.antal;
     }
   }
   return summa;
