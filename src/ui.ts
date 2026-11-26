@@ -8,6 +8,7 @@ export function visaMeny(container: HTMLElement, meny: Ratt[]): void {
     const kort = document.createElement("article");
     const bild = document.createElement("img");
     bild.src = ratt.bild;
+    bild.alt = ratt.namn;
     const rubrik = document.createElement("h3");
     rubrik.textContent = ratt.namn;
     const pris = document.createElement("p");
