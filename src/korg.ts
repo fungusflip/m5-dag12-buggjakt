@@ -11,9 +11,8 @@ export function laggTill(korg: KorgRad[], id: number | string): KorgRad[] {
 }
 
 export function taBort(korg: KorgRad[], id: number | string): KorgRad[] {
-  const index = korg.findIndex((rad) => rad.id === Number(id));
-  korg.splice(index, 1);
-  return korg;
+  const valtId = Number(id);
+  return korg.filter((rad) => rad.id !== valtId);
 }
 
 export function totalPris(korg: KorgRad[], meny: Ratt[]): number {
